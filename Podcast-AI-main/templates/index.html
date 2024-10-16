@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Podcast Content Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+        <h1>AI-Driven Podcast Content Generator</h1>
+        <form id="news-form">
+            <input type="text" id="query" placeholder="Enter news topic (e.g., technology)" required>
+            <select id="language" required>
+                <option value="en">English</option>
+                <option value="te">Telugu</option>
+            </select>
+            <button type="submit">Generate Podcast Outline</button>
+        </form>
+        <div id="loader" style="display:none;">Loading...</div>
+        <div id="result"></div>
+        <div id="pagination">
+            <button id="prev-page" disabled>Previous</button>
+            <span id="page-info"></span>
+            <button id="next-page" disabled>Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+
+        document.getElementById('news-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            currentPage = 1;  // Reset to first page when form is submitted
+            fetchResults();
+        });
+
+        document.getElementById('next-page').addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                fetchResults();
+            }
+        });
+
+        document.getElementById('prev-page').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchResults();
+            }
+        });
+
+        function fetchResults() {
+            const query = document.getElementById('query').value;
+            const language = document.getElementById('language').value;
+
+            document.getElementById('loader').style.display = 'block';  // Show loader
+
+            fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: query, language: language, page: currentPage, max_articles: 10 })
+            })
+            .then(response => {
+                document.getElementById('loader').style.display = 'none';  // Hide loader
+                if (!response.ok) {
+                    return response.json().then(err => { throw new Error(err.error); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = data.outline;
+                totalPages = data.total_pages;
+                updatePagination();
+            })
+            .catch(error => {
+                document.getElementById('result').innerText = 'Error: ' + error.message;
+            });
+        }
+
+        function updatePagination() {
+            document.getElementById('page-info').innerText = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prev-page').disabled = (currentPage === 1);
+            document.getElementById('next-page').disabled = (currentPage === totalPages);
+        }
+    </script>
+</body>
+</html>

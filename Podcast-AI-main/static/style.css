@@ -1,0 +1,88 @@
+/* Base styles for body */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #0072ff, #00c6ff);
+    color: #333;
+    animation: fadeIn 1s ease-in;
+}
+
+/* Main container styling */
+.container {
+    max-width: 90%; /* Adjust max width */
+    margin: 50px auto;
+    padding: 20px; /* Reduced padding */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Header styles */
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: #0056b3;
+}
+
+/* Input field styling */
+input[type="text"], select {
+    width: 100%; /* Full width */
+    max-width: 400px; /* Set a maximum width */
+    padding: 12px; /* Increased padding for a bigger input */
+    margin: 10px auto; /* Center the input and add vertical margin */
+    border: 2px solid #0072ff; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Increase font size */
+    transition: border-color 0.3s; /* Smooth transition for focus effect */
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #00c6ff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Flex layout for pagination */
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Button styling */
+button {
+    flex: 1; /* Allow buttons to grow */
+    padding: 15px;
+    margin: 0 5px; /* Add margin between buttons */
+    background-color: #0072ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+/* Loader styling */
+.loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+/* Result box styling */
+#result {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+}
